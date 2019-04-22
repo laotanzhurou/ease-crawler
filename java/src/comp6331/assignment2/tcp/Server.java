@@ -1,4 +1,4 @@
-package comp6331.assignment2;// Java server program for ANU's comp3310 sockets Lab
+package comp6331.assignment2.tcp;// Java server program for ANU's comp3310 sockets Lab
 // Peter Strazdins, RSCS ANU, 03/18
 
 import java.io.*;
