@@ -4,6 +4,7 @@ import comp6331.assignment2.tcp.TcpClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class HttpClient {
 
@@ -33,12 +34,12 @@ public class HttpClient {
         return this;
     }
 
-    public String build() throws IOException{
+    public List<String> build() throws IOException{
         PrintWriter pw = new PrintWriter(client.getSocket().getOutputStream());
         pw.print(this.method + " " + this.path + " " + this.protocal + CRLF);
         pw.print(CRLF);
         pw.flush();
-        String response = client.receive();
+        List<String> response = client.receive();
         client.close();
         return response;
     }

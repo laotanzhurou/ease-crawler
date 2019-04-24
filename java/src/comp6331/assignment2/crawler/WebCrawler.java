@@ -3,9 +3,11 @@ package comp6331.assignment2.crawler;
 import comp6331.assignment2.analysis.Parser;
 import comp6331.assignment2.analysis.Report;
 import comp6331.assignment2.http.HttpClient;
+import comp6331.assignment2.http.HttpResponse;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,7 +15,6 @@ import java.util.concurrent.Executors;
 public class WebCrawler {
 
     private static final String DEFAULT_URL = "http://comp3310.ddns.net:7880/";
-    private static final ExecutorService pool = Executors.newFixedThreadPool(1);
 
     public static void main(String[] args) throws Exception {
         //parse args
@@ -31,32 +32,39 @@ public class WebCrawler {
         //init
         Report report = new Report();
         LinkedList<String> queue = new LinkedList<>();
-        Map<String, String> results = new HashMap<>();
+        Map<String, HttpResponse> results = new HashMap<>();
         queue.addFirst(url);
 
         //process
         while(!queue.isEmpty()){
             String target = queue.pollFirst();
+
             System.out.println("URL: " + target);
+
             String host = Parser.parseHost(target, defaultHost);
             int port = Parser.parsePort(target, defaultPort);
+            String path = Parser.parsePath(target);
+
             try {
                 HttpClient client = new HttpClient();
                 Thread.sleep(2000);
 
-                String response = client
+                System.out.println("Sending Request...");
+                List<String> content = client
                         .get(host, port)
-                        .path(Parser.parsePath(target))
+                        .path(path)
                         .build();
+                HttpResponse response = HttpResponse.parse(content);
                 results.put(target, response);
-
-                System.out.println(response);
-
 
                 //TODO
                 report.process(target, response);
 
-                Parser.parseHrefLinks(response, host, port).stream().forEach(uri -> {
+                Parser.parseHrefLinks(response.getEntity(), host, port).stream().forEach(uri -> {
+                    if(!results.containsKey(uri))
+                        queue.addFirst(uri);
+                });
+                Parser.parseSrcLinks(response.getEntity(), host, port, Parser.ancestorPath(path)).stream().forEach(uri -> {
                     if(!results.containsKey(uri))
                         queue.addFirst(uri);
                 });
@@ -65,12 +73,7 @@ public class WebCrawler {
             }
         }
 
-
-        pool.submit(() -> {
-            HttpClient client = new HttpClient();
-
-        });
-        pool.shutdown();
+        System.out.println(report);
     }
 
 }

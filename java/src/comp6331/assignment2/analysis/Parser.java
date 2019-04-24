@@ -7,8 +7,11 @@ public class Parser {
 
     private static final String PROTOCAL =  "http://";
 
-    private static final String HREF_ANCHOR = "href=\"";
+    private static final String HREF_ANCHOR = "<a href=\"";
     private static final char HREF_END = '\"';
+    private static final String SRC_ANCHOR = "<img src=\"";
+    private static final char SRC_END = '\"';
+
 
     private static final char PORT_ANCHOR = ':';
     private static final char PORT_END = '/';
@@ -28,7 +31,29 @@ public class Parser {
             }
             String url = input.substring(linkStart, linkEnd);
             if(!url.contains(PROTOCAL))
-                url = PROTOCAL + defaultHost + PORT_ANCHOR + defaultPort + PORT_END + url;
+                url = PROTOCAL + defaultHost + PORT_ANCHOR + defaultPort + (url.equals("/")?"":PORT_END) + url;
+            links.add(url);
+            p = input.indexOf(HREF_ANCHOR, linkEnd);
+        }
+        return links;
+    }
+
+    public static List<String> parseSrcLinks(String input, String defaultHost, int defaultPort, String defaultPath){
+        List<String> links = new ArrayList<>();
+        int p = input.indexOf(SRC_ANCHOR);
+        while(p!=-1){
+            int linkStart = p + SRC_ANCHOR.length();
+            int linkEnd = linkStart;
+            boolean q = true;
+            while(q){
+                if(input.charAt(linkEnd)!=SRC_END)
+                    linkEnd++;
+                else
+                    q = false;
+            }
+            String url = input.substring(linkStart, linkEnd);
+            if(!url.contains(PROTOCAL))
+                url = PROTOCAL + defaultHost + PORT_ANCHOR + defaultPort + defaultPath + url;
             links.add(url);
             p = input.indexOf(HREF_ANCHOR, linkEnd);
         }
@@ -73,5 +98,10 @@ public class Parser {
             }
         }
         return url;
+    }
+
+    public static String ancestorPath(String path){
+        int end = path.lastIndexOf("/");
+        return path.substring(0, end+1);
     }
 }
