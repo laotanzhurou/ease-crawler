@@ -3,6 +3,8 @@ package comp6331.assignment2.tcp;// Java client program for ANU's comp3310 socke
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TcpClient {
     private final Socket socket;
@@ -16,15 +18,15 @@ public class TcpClient {
         out.writeUTF(message);
     }
 
-    public String receive() throws IOException{
+    public List<String> receive() throws IOException{
+        List<String> content = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-        String result = "";
         String t;
         while((t = br.readLine()) != null) {
-            result += t;
+            content.add(t);
         }
         br.close();
-        return result;
+        return content;
     }
 
     public void close() throws IOException{
