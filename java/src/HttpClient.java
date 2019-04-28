@@ -1,6 +1,3 @@
-package comp6331.assignment2.http;
-
-import comp6331.assignment2.tcp.TcpClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;

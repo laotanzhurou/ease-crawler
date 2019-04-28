@@ -1,5 +1,3 @@
-package comp6331.assignment2.http;
-
 import java.util.*;
 import java.util.stream.Collectors;
 

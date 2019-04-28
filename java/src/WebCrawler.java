@@ -1,16 +1,8 @@
-package comp6331.assignment2.crawler;
-
-import comp6331.assignment2.analysis.Parser;
-import comp6331.assignment2.analysis.Report;
-import comp6331.assignment2.http.HttpClient;
-import comp6331.assignment2.http.HttpResponse;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class WebCrawler {
 
@@ -36,7 +28,7 @@ public class WebCrawler {
         queue.addFirst(url);
 
         //process
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             String target = queue.pollFirst();
 
             System.out.println("URL: " + target);
@@ -57,15 +49,14 @@ public class WebCrawler {
                 HttpResponse response = HttpResponse.parse(content);
                 results.put(target, response);
 
-                //TODO
                 report.process(target, response);
 
                 Parser.parseHrefLinks(response.getEntity(), host, port).stream().forEach(uri -> {
-                    if(!results.containsKey(uri))
+                    if (!results.containsKey(uri))
                         queue.addFirst(uri);
                 });
                 Parser.parseSrcLinks(response.getEntity(), host, port, Parser.ancestorPath(path)).stream().forEach(uri -> {
-                    if(!results.containsKey(uri))
+                    if (!results.containsKey(uri))
                         queue.addFirst(uri);
                 });
             } catch (Exception ex) {
