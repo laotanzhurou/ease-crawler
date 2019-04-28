@@ -41,7 +41,6 @@ public class WebCrawler {
                 HttpClient client = new HttpClient();
                 Thread.sleep(2000);
 
-                System.out.println("Sending Request...");
                 List<String> content = client
                         .get(host, port)
                         .path(path)
@@ -49,6 +48,7 @@ public class WebCrawler {
                 HttpResponse response = HttpResponse.parse(content);
                 results.put(target, response);
 
+                System.out.println("Status: " + response.getCode());
                 report.process(target, response);
 
                 Parser.parseHrefLinks(response.getEntity(), host, port).stream().forEach(uri -> {
@@ -63,7 +63,7 @@ public class WebCrawler {
                 ex.printStackTrace();
             }
         }
-
+        System.out.println("");
         System.out.println(report);
     }
 
