@@ -39,7 +39,6 @@ public class HttpResponse {
     }
 
     private static void parseHeader(HttpResponse response, String line){
-        System.out.println(line);
         int anchorIndex = line.indexOf(HEADER_ANCHOR);
         String hKey = line.substring(0, anchorIndex);
         HttpHeader h = HttpHeader.headers.get(hKey);
