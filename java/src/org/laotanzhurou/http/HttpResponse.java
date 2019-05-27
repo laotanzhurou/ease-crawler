@@ -1,6 +1,11 @@
+package org.laotanzhurou.http;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ *  Author: Quan Ke
+ */
 public class HttpResponse {
 
     private static String HEADER_ANCHOR = ":";

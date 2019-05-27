@@ -1,9 +1,16 @@
+package org.laotanzhurou.crawler;
+
+import org.laotanzhurou.http.HttpResponse;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ *  Author: Quan Ke
+ */
 public class Report {
 
     int urlCount;
@@ -61,7 +68,7 @@ public class Report {
         StringBuilder builder = new StringBuilder();
         builder.append("redirects: \n");
         redirects.forEach((f, t) -> builder.append("from: " + f + "\t" + "to: " + t + "\n"));
-        return  "Analytics Report: \n"
+        return  "Analytics org.laotanzhurou.crawler.Report: \n"
                 + "urlCount: " + urlCount + "\r\n"
                 + "htmlPageCount: " + htmlPageCount + "\r\n"
                 + "nonHtmlObjectCount: " + nonHtmlObjectCount + "\r\n"

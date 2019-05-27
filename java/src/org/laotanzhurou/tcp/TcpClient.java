@@ -1,9 +1,13 @@
+package org.laotanzhurou.tcp;
 
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Author: Quan Ke
+ */
 public class TcpClient {
     private final Socket socket;
 
@@ -16,6 +20,9 @@ public class TcpClient {
         out.writeUTF(message);
     }
 
+    /*
+        reads from socket and close tcp connection
+     */
     public List<String> receive() throws IOException{
         List<String> content = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));

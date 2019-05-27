@@ -1,6 +1,11 @@
+package org.laotanzhurou.crawler;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Author: Quan Ke
+ */
 public class Parser {
 
     private static final String PROTOCAL =  "http://";
