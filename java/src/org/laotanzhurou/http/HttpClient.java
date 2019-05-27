@@ -1,8 +1,13 @@
+package org.laotanzhurou.http;
+
+import org.laotanzhurou.tcp.TcpClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
+/**
+ *  Author: Quan Ke
+ */
 public class HttpClient {
 
     private static final String DEFAULT_PATH = "/";
@@ -31,9 +36,13 @@ public class HttpClient {
         return this;
     }
 
+    /*
+        Send http request
+     */
     public List<String> build() throws IOException{
         PrintWriter pw = new PrintWriter(client.getSocket().getOutputStream());
         pw.print(this.method + " " + this.path + " " + this.protocal + CRLF);
+        pw.print("Accept: text/xml,text/html,application/xml,image/jpeg,image/webp,image/apng" + CRLF);
         pw.print(CRLF);
         pw.flush();
         List<String> response = client.receive();

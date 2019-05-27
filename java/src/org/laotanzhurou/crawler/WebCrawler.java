@@ -1,3 +1,7 @@
+package org.laotanzhurou.crawler;
+
+import org.laotanzhurou.http.HttpClient;
+import org.laotanzhurou.http.HttpResponse;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -6,7 +10,7 @@ import java.util.Map;
 
 public class WebCrawler {
 
-    private static final String DEFAULT_URL = "http://comp3310.ddns.net:7880/";
+    private static final String DEFAULT_URL = "www.google.com";
 
     public static void main(String[] args) throws Exception {
         //parse args
